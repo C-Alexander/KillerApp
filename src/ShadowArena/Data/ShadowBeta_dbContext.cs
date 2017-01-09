@@ -191,12 +191,6 @@ namespace ShadowArena.Models
                     .HasForeignKey(d => d.Playerid)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FKPlayerSess994092");
-
-                entity.HasOne(d => d.Session)
-                    .WithMany(p => p.PlayerSession)
-                    .HasForeignKey(d => d.Sessionid)
-                    .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("FKPlayerSess568875");
             });
 
             modelBuilder.Entity<Session>(entity =>
