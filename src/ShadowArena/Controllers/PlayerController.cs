@@ -54,13 +54,13 @@ namespace Shadow_Arena.Controllers
         }
 
         [HttpPost]
-        private IActionResult DeletePlayer(int playerId)
+        public IActionResult DeletePlayer(int playerId)
         {
           
             Player player = new Player();
             player.Id = playerId;
             repository.delete(player);
-            return View();
+            return View("Index");
         }
 
         [HttpPost]
@@ -69,7 +69,7 @@ namespace Shadow_Arena.Controllers
             if (ModelState.IsValid) { 
             repository.update(player);
                }
-            return View();
+            return View("Index");
         }
 
         [HttpPost]
@@ -80,6 +80,11 @@ namespace Shadow_Arena.Controllers
                 repository.add(player);
             }
             return View("../Game/Index");
+        }
+
+        public Player GetPlayerByUserName(string UserName)
+        {
+            return shadowContext.Player.First(p => p.UserName == UserName);
         }
     }
 }

@@ -47,7 +47,15 @@ namespace DalFun2Application
         {
             Open();
             command.Connection = connection;
-            command.ExecuteNonQuery();
+            try
+            {
+                command.ExecuteNonQuery();
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine(e.StackTrace);
+                
+            }
             Close();
         }
 
