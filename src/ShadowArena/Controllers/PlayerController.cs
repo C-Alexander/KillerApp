@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ShadowArena.Models;
 using Shadow_Arena.Enumerations;
+using Shadow_Arena.Models;
 
 namespace Shadow_Arena.Controllers
 {
@@ -70,6 +71,20 @@ namespace Shadow_Arena.Controllers
             repository.update(player);
                }
             return View("Index");
+        }
+
+        [HttpPost]
+        public IActionResult CreatePlayer(RegisterViewModel player)
+        {
+            if (ModelState.IsValid)
+            {
+                repository.add(new Player()
+                {
+                    PassWord = player.Password,
+                    UserName = player.Username
+                }); 
+            }
+            return View("../Game/Index");
         }
 
         [HttpPost]
