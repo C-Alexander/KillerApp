@@ -19,16 +19,21 @@ namespace Shadow_Arena.Controllers
         private ShadowBeta_dbContext shadowContext = new ShadowBeta_dbContext();
         private IPlayerRepository repository;
 
-/// <summary>
-/// Instantiates the Playercontroller with a repo of choice. Use memory repository for unit testing
-/// </summary>
-/// <param name="repo">Repository to use</param>
-/// 
-/// 
-/// 
-        public PlayerController(IPlayerRepository repo)
+        /// <summary>
+        /// Instantiates the Playercontroller with a repo of choice. Use memory repository for unit testing
+        /// </summary>
+        /// <param name="repo">Repository to use</param>
+        /// 
+        /// 
+        /// 
+//        public PlayerController(IPlayerRepository repo)
+//        {
+//            repository = repo;
+//        }
+//This SHOULD work but, Asp.net core offers dependency injection etc. I feel this may cause bugs!!
+        public PlayerController()
         {
-            repository = repo;
+            repository = new PlayerRepository(new PlayerSQLContext(new DatabaseManager()));
         }
 
         public IActionResult Index()
@@ -68,13 +73,13 @@ namespace Shadow_Arena.Controllers
         }
 
         [HttpPost]
-        private IActionResult CreatePlayer(Player player)
+        public IActionResult CreatePlayer(Player player)
         {
             if (ModelState.IsValid)
             {
                 repository.add(player);
             }
-            return View();
+            return View("../Game/Index");
         }
     }
 }

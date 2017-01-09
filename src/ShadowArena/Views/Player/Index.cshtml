@@ -1,4 +1,7 @@
-﻿@using ShadowArena.Models
+﻿@using System.Threading.Tasks
+@using ShadowArena.Models
+@using Shadow_Arena.Models
+@model Shadow_Arena.Models.RegisterViewModel
 @{
     Layout = null;
 }
@@ -14,7 +17,7 @@
 <body>
 <div class="register-photo">
     <div class="form-container">
-        <form asp-controller="Player" asp-action="" method="post" class="form-horizontal">
+        <form asp-controller="Player" asp-action="CreatePlayer" method="post" class="form-horizontal">
             <h2 class="text-center"><strong>Join</strong> the fight.</h2>
             <div class="form-group">
                 <input class="form-control" type="email" name="email" required="" placeholder="Email" maxlength="100" minlength="5">
@@ -36,6 +39,6 @@
 </div>
 <script src="~/lib/jquery/dist/jquery.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-    @Html.RenderPartialAsync("_ValidationScriptsPartial")
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 </body>
 </html>

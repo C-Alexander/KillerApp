@@ -20,18 +20,26 @@ namespace DalFun2Application
 
          void Open()
         {
-            if (connection.State != System.Data.ConnectionState.Open)
+            try
             {
-                connection.ConnectionString =
-                    @"Server = (localdb)\\mssqllocaldb; Database = aspnet - Shadow_Arena - 886aa145 - e488 - 49d1 - 95f5 - 9630692916a6; Trusted_Connection = True; MultipleActiveResultSets = true";
-                //change for security reasons!!!
-                connection.Open();
+                if (connection.State != System.Data.ConnectionState.Open)
+                {
+                    connection.ConnectionString =
+                        @"Server = (localdb)\\mssqllocaldb; Database = aspnet - Shadow_Arena - 886aa145 - e488 - 49d1 - 95f5 - 9630692916a6; Trusted_Connection = True; MultipleActiveResultSets = true";
+                    //change for security reasons!!!
+                    connection.Open();
+                }
+                else
+                {
+                    Console.WriteLine("Tried to open connection, state was: " + connection.State);
+                    Close();
+                    Open();
+                }
             }
-            else
+            catch (SqlException e )
             {
-                Console.WriteLine("Tried to open connection, state was: " + connection.State);
-                Close();
-                Open();
+                Console.WriteLine(e.StackTrace); // honestly, it should use the logger and probably tbh it shouldnt handle this to begin with - asp.net will hide and fail to display the page on an error by default.
+                //thats how it should be. God knows the ungodly effects of a broken db connection on a dynamic site....
             }
         }
 
