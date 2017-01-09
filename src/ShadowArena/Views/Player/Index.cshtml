@@ -3,14 +3,39 @@
     Layout = null;
 }
 <!DOCTYPE html>
-
 <html>
 <head>
-    <title>title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShadowArena</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/Registration-Form-with-Photo.css">
 </head>
 <body>
-<div>
-      
+<div class="register-photo">
+    <div class="form-container">
+        <form asp-controller="Player" asp-action="" method="post" class="form-horizontal">
+            <h2 class="text-center"><strong>Join</strong> the fight.</h2>
+            <div class="form-group">
+                <input class="form-control" type="email" name="email" required="" placeholder="Email" maxlength="100" minlength="5">
+            </div>
+            <input class="form-control" type="text" name="username" placeholder="Username">
+            <div class="form-group"></div>
+            <div class="form-group">
+                <input class="form-control" type="password" name="password" placeholder="Password">
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="password" name="password-repeat" placeholder="Password (repeat)">
+            </div>
+            <div class="form-group"></div>
+            <div class="form-group">
+                <button class="btn btn-primary btn-block" type="submit">Sign Up</button>
+            </div><a href="#" class="already">Or login here</a>
+        </form>
+    </div>
 </div>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    @Html.RenderPartialAsync("_ValidationScriptsPartial")
 </body>
 </html>

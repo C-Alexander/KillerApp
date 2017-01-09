@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DalFun2Application;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ShadowArena.Models;
 using Shadow_Arena.Enumerations;
 
-namespace DalFun2Application
+namespace Shadow_Arena.Controllers
 {
     //not exactly secure, normally you'd use Identity and an Authorize attribute. But this is mostly a POC and frankly, worrying about security in this is out of scope
 
     //alex said, right before some kid on infralab figured out the requests and deleted every player with Charles
-    class PlayerController : Controller
+    public class PlayerController : Controller
     {
         private ShadowBeta_dbContext shadowContext = new ShadowBeta_dbContext();
         private IPlayerRepository repository;

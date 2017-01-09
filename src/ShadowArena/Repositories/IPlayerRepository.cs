@@ -7,7 +7,7 @@ using ShadowArena.Models;
 
 namespace DalFun2Application
 {
-    interface IPlayerRepository
+    public interface IPlayerRepository
     {
         void add(Player player);
         void delete(Player player);
