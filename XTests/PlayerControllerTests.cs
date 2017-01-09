@@ -39,6 +39,28 @@ namespace XTests
             Assert.True(c.GetPlayerByUserName("TestUser123456") != null);
         }
 
+        [Fact(DisplayName = "Can not create invalid players")]
+        public void TestFalseNewPlayerCreation()
+        {
+            var c = new PlayerController();
+            c.CreatePlayer(new Player()
+            {
+                Experience = 0,
+                Level = 10,
+                PassWord = "gg",
+                UserName = "TestUser1234564"
+            });
+            Assert.True(c.GetPlayerByUserName("TestUser1234564") == null);
+            c.CreatePlayer(new Player()
+            {
+                Experience = 0,
+                Level = 1000,
+                PassWord = "wdasffdsdsdf!231!*",
+                UserName = "TestUser1234564"
+            });
+            Assert.True(c.GetPlayerByUserName("TestUser1234564") == null);
+        } 
+
         [Fact(DisplayName = "Can delete a player")]
         public void TestPlayerDeletion()
         {
@@ -48,5 +70,14 @@ namespace XTests
             Assert.True(c.GetPlayerByUserName("TestUser123456") == null);
         }
 
+        [Theory(DisplayName = "Can not delete false players")]
+        [InlineData(0)]
+        [InlineData(-1)]
+        [InlineData(282939348294829)] //lol imagine if this game got so many players it would actually reach this id. now this would be a funny bug.
+        public void TestFalsePlayerDeletion(int id)
+        {
+            var c = new PlayerController();
+            c.DeletePlayer(id);
+        }
     }
 }
