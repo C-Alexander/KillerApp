@@ -1,5 +1,6 @@
 ﻿namespace Shadow_Arena.Models
 {
+    // ReSharper disable once PartialTypeWithSinglePart
     public partial class SkillClass
     {
         public int Skillid { get; set; }

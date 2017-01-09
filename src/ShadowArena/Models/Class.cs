@@ -2,11 +2,14 @@
 
 namespace Shadow_Arena.Models
 {
+    // ReSharper disable once PartialTypeWithSinglePart
     public partial class Class
     {
         public Class()
         {
+            // ReSharper disable once VirtualMemberCallInConstructor
             Character = new HashSet<Character>();
+            // ReSharper disable once VirtualMemberCallInConstructor
             SkillClass = new HashSet<SkillClass>();
         }
 

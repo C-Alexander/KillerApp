@@ -11,7 +11,7 @@ namespace Shadow_Arena.Repositories
         /// <summary>Initializes a new instance of the <see cref="T:System.Object" /> class.</summary>
         public PlayerRepository(IPlayerContext context)
         {
-            this._context = context;
+            _context = context;
         }
 
         public void Add(Player player)

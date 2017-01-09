@@ -2,6 +2,7 @@
 
 namespace Shadow_Arena.Models
 {
+    // ReSharper disable once PartialTypeWithSinglePart
     public partial class PlayerSession
     {
         public int Playerid { get; set; }
