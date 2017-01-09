@@ -2,9 +2,8 @@
 using System.Data.Common;
 using System.Data.SqlClient;
 using ShadowArena.Models;
-using Shadow_Arena.Contexts;
 
-namespace DalFun2Application
+namespace Shadow_Arena.Contexts
 {
     class PlayerSqlContext : IPlayerContext
     {
