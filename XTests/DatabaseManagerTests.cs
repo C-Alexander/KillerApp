@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Threading.Tasks;
-using DalFun2Application;
-using Remotion.Linq.Clauses;
+﻿using DalFun2Application;
 using Xunit;
 
 namespace XTests

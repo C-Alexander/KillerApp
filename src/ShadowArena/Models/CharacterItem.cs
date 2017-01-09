@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace ShadowArena.Models
+﻿namespace ShadowArena.Models
 {
     public partial class CharacterItem
     {
