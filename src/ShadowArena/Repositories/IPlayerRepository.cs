@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ShadowArena.Models;
 
 namespace DalFun2Application
 {
     interface IPlayerRepository
     {
-        void add(PlayerModel player);
-        void delete(PlayerModel player);
-        void update(PlayerModel player);
-        ICollection<PlayerModel> read();
+        void add(Player player);
+        void delete(Player player);
+        void update(Player player);
+        ICollection<Player> read();
     }
 }

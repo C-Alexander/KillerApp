@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ShadowArena.Models;
 
@@ -14,12 +15,28 @@ namespace DalFun2Application
     class PlayerController : Controller
     {
         private IPlayerRepository repository;
-        /// <summary>Initializes a new instance of the <see cref="T:System.Object" /> class.</summary>
-        public PlayerController(IPlayerContext context)
+
+/// <summary>
+/// Instantiates the Playercontroller with a repo of choice. Use memory repository for unit testing
+/// </summary>
+/// <param name="repo">Repository to use</param>
+/// 
+/// 
+/// 
+        public PlayerController(IPlayerRepository repo)
         {
-            repository = new PlayerRepository(context);
+            repository = repo;
         }
-        
+
+        public IActionResult Index()
+        {
+            if (HttpContext.Session.GetString("playerId") != null)
+            {
+             //   if ()
+            }
+            return View();
+        }
+
         [HttpPost]
         private IActionResult DeletePlayer(int playerId)
         {
@@ -39,21 +56,14 @@ namespace DalFun2Application
             return View();
         }
 
-        private void OnClickCreatePlayer(object sender, EventArgs eventArgs)
+        [HttpPost]
+        private IActionResult CreatePlayer(Player player)
         {
-            Player player; 
-            getPlayerData(out player, (Form1)((Button)sender).Parent);
-            repository.add(player);
-        }
-
-        private void getPlayerData(out Player player, Form1 form)
-        {
-            var newPlayer = new Player();
-            newPlayer.UserName = ((TextBox)form.Controls["tbUsername"]).Text;
-            newPlayer.Password = ((TextBox)form.Controls["tbPass"]).Text;
-            newPlayer.Level = Convert.ToInt32(((TextBox)form.Controls["tbLevel"]).Text);
-            newPlayer.Experience = Convert.ToInt32(((TextBox)form.Controls["tbExperience"]).Text);
-            player = newPlayer;
+            if (ModelState.IsValid)
+            {
+                repository.add(player);
+            }
+            return View();
         }
     }
 }

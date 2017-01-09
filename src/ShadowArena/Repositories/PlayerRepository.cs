@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ShadowArena.Models;
 
 namespace DalFun2Application
 {
@@ -16,22 +17,22 @@ namespace DalFun2Application
             this.context = context;
         }
 
-        public void add(PlayerModel player)
+        public void add(Player player)
         {
             context.add(player);
         }
 
-        public void delete(PlayerModel player)
+        public void delete(Player player)
         {
             context.delete(player);
         }
 
-        public void update(PlayerModel player)
+        public void update(Player player)
         {
             context.update(player);
         }
 
-        public ICollection<PlayerModel> read()
+        public ICollection<Player> read()
         {
             return context.read();
         }

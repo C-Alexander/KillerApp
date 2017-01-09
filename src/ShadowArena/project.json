@@ -1,4 +1,4 @@
-﻿{
+{
   "userSecretsId": "aspnet-Shadow_Arena-886aa145-e488-49d1-95f5-9630692916a6",
 
   "dependencies": {
@@ -41,10 +41,11 @@
       "version": "1.0.0-preview2-final",
       "type": "build"
     },
-    "Microsoft.VisualStudio.Web.CodeGenerators.Mvc":  {
+    "Microsoft.VisualStudio.Web.CodeGenerators.Mvc": {
       "version": "1.0.0-preview2-final",
       "type": "build"
-    }
+    },
+    "Microsoft.AspNetCore.Session": "1.1.0"
   },
 
   "tools": {

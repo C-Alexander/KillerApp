@@ -47,6 +47,8 @@ namespace Shadow_Arena
        //         options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddMvc();
+            services.AddDistributedMemoryCache();
+            services.AddSession();
 
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
@@ -77,6 +79,8 @@ namespace Shadow_Arena
             app.UseStaticFiles();
 
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
+
+            app.UseSession();
 
             app.UseMvc(routes =>
             {
