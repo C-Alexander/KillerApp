@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace ShadowArena.Models
 {
-    public partial class ShadowBeta_dbContext : DbContext
+    public partial class ShadowBetaDbContext : DbContext
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

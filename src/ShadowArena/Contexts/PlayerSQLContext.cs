@@ -2,19 +2,20 @@
 using System.Data.Common;
 using System.Data.SqlClient;
 using ShadowArena.Models;
+using Shadow_Arena.Contexts;
 
 namespace DalFun2Application
 {
-    class PlayerSQLContext : IPlayerContext
+    class PlayerSqlContext : IPlayerContext
     {
         private DatabaseManager DatabaseManager { get; set; }
         /// <summary>Initializes a new instance of the <see cref="T:System.Object" /> class.</summary>
-        public PlayerSQLContext(DatabaseManager dbManager)
+        public PlayerSqlContext(DatabaseManager dbManager)
         {
             DatabaseManager = dbManager;
         }
 
-        public void add(Player player)
+        public void Add(Player player)
         {
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "INSERT INTO Player (userName, passWord, level, experience)" +
@@ -23,19 +24,19 @@ namespace DalFun2Application
             cmd.Parameters.AddWithValue("@password", player.PassWord);
             cmd.Parameters.AddWithValue("@level", player.Level);
             cmd.Parameters.AddWithValue("@experience", player.Experience);
-            DatabaseManager.runCommandNonQuery(cmd);
+            DatabaseManager.RunCommandNonQuery(cmd);
         }
 
-        public void delete(Player player)
+        public void Delete(Player player)
         {
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "DELETE FROM Player" +
                                " WHERE Player.id = @id";
             cmd.Parameters.AddWithValue("@id", player.Id);
-            DatabaseManager.runCommandNonQuery(cmd);
+            DatabaseManager.RunCommandNonQuery(cmd);
         }
 
-        public void update(Player player)
+        public void Update(Player player)
         {
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "UPDATE Player SET userName=@username, passWord=@password, level=@level, experience=@experience" +
@@ -45,14 +46,14 @@ namespace DalFun2Application
             cmd.Parameters.AddWithValue("@password", player.PassWord);
             cmd.Parameters.AddWithValue("@level", player.Level);
             cmd.Parameters.AddWithValue("@experience", player.Experience);
-            DatabaseManager.runCommandNonQuery(cmd);
+            DatabaseManager.RunCommandNonQuery(cmd);
         }
 
-        public ICollection<Player> read()
+        public ICollection<Player> Read()
         {
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = "SELECT * FROM Player";
-            DbDataReader reader = DatabaseManager.runCommand(cmd);
+            DbDataReader reader = DatabaseManager.RunCommand(cmd);
             ICollection<Player> playerList = new List<Player>();
             while (reader.Read())
             {

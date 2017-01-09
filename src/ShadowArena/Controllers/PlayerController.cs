@@ -4,6 +4,7 @@ using DalFun2Application;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ShadowArena.Models;
+using Shadow_Arena.Contexts;
 using Shadow_Arena.Enumerations;
 using Shadow_Arena.Models;
 
@@ -14,8 +15,8 @@ namespace Shadow_Arena.Controllers
     //alex said, right before some kid on infralab figured out the requests and deleted every player with Charles
     public class PlayerController : Controller
     {
-        private ShadowBeta_dbContext shadowContext = new ShadowBeta_dbContext();
-        private IPlayerRepository repository;
+        private ShadowBetaDbContext _shadowContext = new ShadowBetaDbContext();
+        private IPlayerRepository _repository;
 
         /// <summary>
         /// Instantiates the Playercontroller with a repo of choice. Use memory repository for unit testing
@@ -31,19 +32,19 @@ namespace Shadow_Arena.Controllers
 //This SHOULD work but, Asp.net core offers dependency injection etc. I feel this may cause bugs!!
         public PlayerController()
         {
-            repository = new PlayerRepository(new PlayerSQLContext(new DatabaseManager()));
+            _repository = new PlayerRepository(new PlayerSqlContext(new DatabaseManager()));
         }
 
         public IActionResult Index()
         {
-            if (HttpContext.Session.GetString(ContextData.playerId.ToString()) != null)
+            if (HttpContext.Session.GetString(ContextData.PlayerId.ToString()) != null)
             {
                 if (
-                    shadowContext.PlayerSession.Any(
+                    _shadowContext.PlayerSession.Any(
                         s =>
                             s.Playerid ==
-                            Convert.ToInt32(HttpContext.Session.GetString(ContextData.playerId.ToString()))
-                            && s.Sessionid == HttpContext.Session.GetString(ContextData.sessionId.ToString())))
+                            Convert.ToInt32(HttpContext.Session.GetString(ContextData.PlayerId.ToString()))
+                            && s.Sessionid == HttpContext.Session.GetString(ContextData.SessionId.ToString())))
                 {
                     return View("../Game/Index");
                 }
@@ -57,7 +58,7 @@ namespace Shadow_Arena.Controllers
           
             Player player = new Player();
             player.Id = playerId;
-            repository.delete(player);
+            _repository.Delete(player);
             return View("Index");
         }
 
@@ -65,7 +66,7 @@ namespace Shadow_Arena.Controllers
         private IActionResult UpdatePlayer(Player player)
         {
             if (ModelState.IsValid) { 
-            repository.update(player);
+            _repository.Update(player);
                }
             return View("Index");
         }
@@ -75,7 +76,7 @@ namespace Shadow_Arena.Controllers
         {
             if (ModelState.IsValid)
             {
-                repository.add(new Player()
+                _repository.Add(new Player()
                 {
                     PassWord = player.Password,
                     UserName = player.Username
@@ -89,14 +90,14 @@ namespace Shadow_Arena.Controllers
         {
             if (ModelState.IsValid)
             {
-                repository.add(player);
+                _repository.Add(player);
             }
             return View("../Game/Index");
         }
 
-        public Player GetPlayerByUserName(string UserName)
+        public Player GetPlayerByUserName(string userName)
         {
-            return shadowContext.Player.First(p => p.UserName == UserName);
+            return _shadowContext.Player.First(p => p.UserName == userName);
         }
     }
 }

@@ -2,32 +2,32 @@
 using System.Data.Common;
 using System.Data.SqlClient;
 
-namespace DalFun2Application
+namespace Shadow_Arena.Contexts
 {
     public class DatabaseManager
     {
-        private DbConnection connection = new SqlConnection();
+        private DbConnection _connection = new SqlConnection();
 
         public DbConnection Connection
         {
-            get { return connection; }
-            set { connection = value; }
+            get { return _connection; }
+            set { _connection = value; }
         }
 
          void Open()
         {
             try
             {
-                if (connection.State != System.Data.ConnectionState.Open)
+                if (_connection.State != System.Data.ConnectionState.Open)
                 {
-                    connection.ConnectionString =
+                    _connection.ConnectionString =
                         @"Server = (localdb)\\mssqllocaldb; Database = aspnet - Shadow_Arena - 886aa145 - e488 - 49d1 - 95f5 - 9630692916a6; Trusted_Connection = True; MultipleActiveResultSets = true";
                     //change for security reasons!!!
-                    connection.Open();
+                    _connection.Open();
                 }
                 else
                 {
-                    Console.WriteLine("Tried to open connection, state was: " + connection.State);
+                    Console.WriteLine("Tried to open connection, state was: " + _connection.State);
                     Close();
                     Open();
                 }
@@ -39,10 +39,10 @@ namespace DalFun2Application
             }
         }
 
-        public void runCommandNonQuery(DbCommand command)
+        public void RunCommandNonQuery(DbCommand command)
         {
             Open();
-            command.Connection = connection;
+            command.Connection = _connection;
             try
             {
                 command.ExecuteNonQuery();
@@ -55,19 +55,19 @@ namespace DalFun2Application
             Close();
         }
 
-        public DbDataReader runCommand(DbCommand command)
+        public DbDataReader RunCommand(DbCommand command)
         {
             Open();
-                command.Connection = connection;
+                command.Connection = _connection;
                 DbDataReader reader = command.ExecuteReader();
             return reader;
         }
 
         void Close()
         {
-            if (connection.State == System.Data.ConnectionState.Open)
+            if (_connection.State == System.Data.ConnectionState.Open)
             {
-                connection.Close();
+                _connection.Close();
             }
             else throw new Exception("Tried to close a connection that was not open");
         }

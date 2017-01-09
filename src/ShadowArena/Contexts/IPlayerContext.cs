@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using ShadowArena.Models;
 
-namespace DalFun2Application
+namespace Shadow_Arena.Contexts
 {
     interface IPlayerContext
     {
-        void add(Player player);
-        void delete(Player player);
-        void update(Player player);
-        ICollection<Player> read();
+        void Add(Player player);
+        void Delete(Player player);
+        void Update(Player player);
+        ICollection<Player> Read();
     }
 }

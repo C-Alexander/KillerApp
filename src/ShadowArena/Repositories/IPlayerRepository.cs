@@ -5,9 +5,9 @@ namespace DalFun2Application
 {
     public interface IPlayerRepository
     {
-        void add(Player player);
-        void delete(Player player);
-        void update(Player player);
-        ICollection<Player> read();
+        void Add(Player player);
+        void Delete(Player player);
+        void Update(Player player);
+        ICollection<Player> Read();
     }
 }

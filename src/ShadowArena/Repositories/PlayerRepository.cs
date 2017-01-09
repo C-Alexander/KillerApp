@@ -1,36 +1,37 @@
 ﻿using System.Collections.Generic;
 using ShadowArena.Models;
+using Shadow_Arena.Contexts;
 
 namespace DalFun2Application
 {
     class PlayerRepository : IPlayerRepository
     {
-        private IPlayerContext context;
+        private IPlayerContext _context;
 
         /// <summary>Initializes a new instance of the <see cref="T:System.Object" /> class.</summary>
         public PlayerRepository(IPlayerContext context)
         {
-            this.context = context;
+            this._context = context;
         }
 
-        public void add(Player player)
+        public void Add(Player player)
         {
-            context.add(player);
+            _context.Add(player);
         }
 
-        public void delete(Player player)
+        public void Delete(Player player)
         {
-            context.delete(player);
+            _context.Delete(player);
         }
 
-        public void update(Player player)
+        public void Update(Player player)
         {
-            context.update(player);
+            _context.Update(player);
         }
 
-        public ICollection<Player> read()
+        public ICollection<Player> Read()
         {
-            return context.read();
+            return _context.Read();
         }
     }
 }
