@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ShadowArena.Models
+namespace Shadow_Arena.Models
 {
     public partial class Class
     {

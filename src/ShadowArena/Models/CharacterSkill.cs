@@ -1,4 +1,4 @@
-﻿namespace ShadowArena.Models
+﻿namespace Shadow_Arena.Models
 {
     public partial class CharacterSkill
     {

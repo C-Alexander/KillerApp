@@ -1,5 +1,4 @@
-﻿using DalFun2Application;
-using Shadow_Arena.Contexts;
+﻿using Shadow_Arena.Contexts;
 using Xunit;
 
 namespace XTests

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ShadowArena.Models;
 using Shadow_Arena.Controllers;
+using Shadow_Arena.Models;
 using Xunit;
 
 namespace XTests

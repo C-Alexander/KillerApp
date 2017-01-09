@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data.Common;
 using System.Data.SqlClient;
-using ShadowArena.Models;
+using Shadow_Arena.Models;
 
 namespace Shadow_Arena.Contexts
 {

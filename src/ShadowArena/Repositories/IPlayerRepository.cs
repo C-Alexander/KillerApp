@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using ShadowArena.Models;
+using Shadow_Arena.Models;
 
-namespace DalFun2Application
+namespace Shadow_Arena.Repositories
 {
     public interface IPlayerRepository
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ShadowArena.Models
+namespace Shadow_Arena.Models
 {
     public partial class PlayerSession
     {

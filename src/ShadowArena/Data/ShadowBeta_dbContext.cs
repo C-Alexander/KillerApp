@@ -1,13 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Shadow_Arena.Models;
 
-namespace ShadowArena.Models
+namespace Shadow_Arena.Data
 {
+    // ReSharper disable once PartialTypeWithSinglePart
     public partial class ShadowBetaDbContext : DbContext
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+#pragma warning disable 1030
             #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+#pragma warning restore 1030
             optionsBuilder.UseSqlServer(@" Server=tcp:sagamedbserver.database.windows.net,1433;Initial Catalog=ShadowBeta_db;Persist Security Info=False;User ID=sa_admin;Password= P-5:.Z:bRHu}?NgQ;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
         }
 

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using ShadowArena.Models;
+using Shadow_Arena.Models;
 
 namespace Shadow_Arena.Contexts
 {

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using ShadowArena.Models;
 using Shadow_Arena.Contexts;
+using Shadow_Arena.Models;
 
-namespace DalFun2Application
+namespace Shadow_Arena.Repositories
 {
     class PlayerRepository : IPlayerRepository
     {

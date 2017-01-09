@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
-using DalFun2Application;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ShadowArena.Models;
 using Shadow_Arena.Contexts;
+using Shadow_Arena.Data;
 using Shadow_Arena.Enumerations;
 using Shadow_Arena.Models;
+using Shadow_Arena.Repositories;
 
 namespace Shadow_Arena.Controllers
 {
@@ -21,7 +21,9 @@ namespace Shadow_Arena.Controllers
         /// <summary>
         /// Instantiates the Playercontroller with a repo of choice. Use memory repository for unit testing
         /// </summary>
+#pragma warning disable 1584,1711,1572,1581,1580
         /// <param name="repo">Repository to use</param>
+#pragma warning restore 1584,1711,1572,1581,1580
         /// 
         /// 
         /// 
@@ -63,6 +65,7 @@ namespace Shadow_Arena.Controllers
         }
 
         [HttpPost]
+        // ReSharper disable once UnusedMember.Local
         private IActionResult UpdatePlayer(Player player)
         {
             if (ModelState.IsValid) { 
