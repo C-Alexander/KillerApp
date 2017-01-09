@@ -8,9 +8,6 @@ namespace XTests
     public class PlayerControllerTests
     {
         //atm asp.net core does not support proper unit testing. This means I have toeither work heavily around its DI or compromise by not using memory contexts. Sigh.
-        public PlayerControllerTests()
-        {
-        }
         /// <summary>
         /// welp, need I really change my connection string for this
         /// </summary>

@@ -3,9 +3,10 @@
 }
 
 .register-photo .image-holder {
-  display:table-cell;
+    display:table-cell;
   width:auto;
-  background-size:cover;
+    -ms-background-size:cover;
+    background-size:cover;
 }
 
 .register-photo .form-container {
