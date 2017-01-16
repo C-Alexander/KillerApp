@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Shadow_Arena.Contexts;
 using Shadow_Arena.Controllers;
 using Shadow_Arena.Models;
+using Shadow_Arena.Services;
 using Xunit;
 
 namespace XTests
@@ -14,20 +17,22 @@ namespace XTests
         [Fact(DisplayName = "The index should return the login page when not logged in")]
         public void TestNotLoggedInPage()
         {
-            var c = new PlayerController();
+            LoggerFactory loggerFactory = new LoggerFactory();
+            loggerFactory.AddConsole();
+            var c = new PlayerController(new AuthMessageSender(), new DatabaseManager(loggerFactory.CreateLogger<DatabaseManager>()));
             Assert.True(((ViewResult) c.Index()).ViewName == "Index");
         }
 
         [Fact(DisplayName = "Can create new players")]
         public void TestNewPlayerCreation()
         {
-            var c = new PlayerController();
-            c.CreatePlayer(new Player()
+            LoggerFactory loggerFactory = new LoggerFactory();
+            loggerFactory.AddConsole();
+            var c = new PlayerController(new AuthMessageSender(), new DatabaseManager(loggerFactory.CreateLogger<DatabaseManager>()));
+            c.CreatePlayer(new RegisterViewModel()
             {
-                Experience = 0,
-                Level = 10,
-                PassWord = "wdasffdsdsdf!231!*",
-                UserName = "TestUser123456"
+                Password = "wdasffdsdsdf!231!*",
+                Username = "TestUser123456"
             });
             Assert.True(c.GetPlayerByUserName("TestUser123456") != null);
         }
@@ -35,21 +40,13 @@ namespace XTests
         [Fact(DisplayName = "Can not create invalid players")]
         public void TestFalseNewPlayerCreation()
         {
-            var c = new PlayerController();
-            c.CreatePlayer(new Player()
+            LoggerFactory loggerFactory = new LoggerFactory();
+            loggerFactory.AddConsole();
+            var c = new PlayerController(new AuthMessageSender(), new DatabaseManager(loggerFactory.CreateLogger<DatabaseManager>()));
+            c.CreatePlayer(new RegisterViewModel()
             {
-                Experience = 0,
-                Level = 10,
-                PassWord = "gg",
-                UserName = "TestUser1234564"
-            });
-            Assert.True(c.GetPlayerByUserName("TestUser1234564") == null);
-            c.CreatePlayer(new Player()
-            {
-                Experience = 0,
-                Level = 1000,
-                PassWord = "wdasffdsdsdf!231!*",
-                UserName = "TestUser1234564"
+                Password = "gg",
+                Username = "TestUser1234564"
             });
             Assert.True(c.GetPlayerByUserName("TestUser1234564") == null);
         } 
@@ -57,7 +54,9 @@ namespace XTests
         [Fact(DisplayName = "Can delete a player")]
         public void TestPlayerDeletion()
         {
-            var c = new PlayerController();
+            LoggerFactory loggerFactory = new LoggerFactory();
+            loggerFactory.AddConsole();
+            var c = new PlayerController(new AuthMessageSender(), new DatabaseManager(loggerFactory.CreateLogger<DatabaseManager>()));
             Assert.True(c.GetPlayerByUserName("TestUser123456") != null);
             c.DeletePlayer((c.GetPlayerByUserName("TestUser123456").Id));
             Assert.True(c.GetPlayerByUserName("TestUser123456") == null);
@@ -69,7 +68,9 @@ namespace XTests
         [InlineData(282939348294829)] //lol imagine if this game got so many players it would actually reach this id. now this would be a funny bug.
         public void TestFalsePlayerDeletion(int id)
         {
-            var c = new PlayerController();
+            LoggerFactory loggerFactory = new LoggerFactory();
+            loggerFactory.AddConsole();
+            var c = new PlayerController(new AuthMessageSender(), new DatabaseManager(loggerFactory.CreateLogger<DatabaseManager>()));
             c.DeletePlayer(id);
         }
     }
