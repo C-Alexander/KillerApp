@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Shadow_Arena.Contexts;
 using Shadow_Arena.Services;
 
 namespace Shadow_Arena
@@ -45,6 +46,7 @@ namespace Shadow_Arena
             services.AddSession();
 
             // Add application services.
+            services.AddScoped<IDatabaseManager, DatabaseManager>();
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
         }
@@ -53,7 +55,8 @@ namespace Shadow_Arena
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
+            //loggerFactory.AddDebug();
+            loggerFactory.AddAzureWebAppDiagnostics();
 
             app.UseApplicationInsightsRequestTelemetry();
 

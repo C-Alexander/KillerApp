@@ -1,12 +1,20 @@
 ﻿using System;
 using System.Data.Common;
 using System.Data.SqlClient;
+using System.Linq.Expressions;
+using Microsoft.Extensions.Logging;
 
 namespace Shadow_Arena.Contexts
 {
-    public class DatabaseManager
+    public class DatabaseManager : IDatabaseManager
     {
         private DbConnection _connection = new SqlConnection();
+        private ILogger<DatabaseManager> logger;
+
+        public DatabaseManager(ILogger<DatabaseManager> logger)
+        {
+            this.logger = logger;
+        }
 
         public DbConnection Connection
         {
@@ -27,7 +35,7 @@ namespace Shadow_Arena.Contexts
                 }
                 else
                 {
-                    Console.WriteLine("Tried to open connection, state was: " + _connection.State);
+                    logger.LogWarning("Tried to open connection, state was: " + _connection.State);
                     Close();
                     Open();
                 }
@@ -49,7 +57,7 @@ namespace Shadow_Arena.Contexts
             }
             catch (SqlException e)
             {
-                Console.WriteLine(e.StackTrace);
+                logger.LogError(e.StackTrace);
                 
             }
             Close();

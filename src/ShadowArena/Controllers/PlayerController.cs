@@ -7,6 +7,7 @@ using Shadow_Arena.Data;
 using Shadow_Arena.Enumerations;
 using Shadow_Arena.Models;
 using Shadow_Arena.Repositories;
+using Shadow_Arena.Services;
 
 namespace Shadow_Arena.Controllers
 {
@@ -17,6 +18,7 @@ namespace Shadow_Arena.Controllers
     {
         private ShadowBetaDbContext _shadowContext = new ShadowBetaDbContext();
         private IPlayerRepository _repository;
+        private IEmailSender _emailSender;
 
         /// <summary>
         /// Instantiates the Playercontroller with a repo of choice. Use memory repository for unit testing
@@ -32,9 +34,10 @@ namespace Shadow_Arena.Controllers
 //            repository = repo;
 //        }
 //This SHOULD work but, Asp.net core offers dependency injection etc. I feel this may cause bugs!!
-        public PlayerController()
+        public PlayerController(IEmailSender emailSender, IDatabaseManager databaseManager)
         {
-            _repository = new PlayerRepository(new PlayerSqlContext(new DatabaseManager()));
+            _emailSender = emailSender;
+            _repository = new PlayerRepository(new PlayerSqlContext(databaseManager));
         }
 
         public IActionResult Index()
@@ -83,17 +86,15 @@ namespace Shadow_Arena.Controllers
                 {
                     PassWord = player.Password,
                     UserName = player.Username
-                }); 
-            }
-            return View("../Game/Index");
-        }
+                });
+                _emailSender.SendEmailAsync(player.Email,
+                    "Welcome to the Shadow World",
+                    String.Format(
+                        "Welcome to the shadow world! \n\n" +
+                        " Your username is: {0} \n" +
+                        " Your password is: {1}"
+                        , player.Username, player.Password));
 
-        [HttpPost]
-        public IActionResult CreatePlayer(Player player)
-        {
-            if (ModelState.IsValid)
-            {
-                _repository.Add(player);
             }
             return View("../Game/Index");
         }

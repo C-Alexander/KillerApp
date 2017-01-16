@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="RIDER_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$/../..">
+      <sourceFolder url="file://$MODULE_DIR$/../../global.json" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../src/ShadowArena" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../XTests" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/../../XTests/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../XTests/obj" />
+      <excludeFolder url="file://$MODULE_DIR$/../../packages" />
+      <excludeFolder url="file://$MODULE_DIR$/../../src/ShadowArena/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/../../src/ShadowArena/obj" />
+    </content>
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>

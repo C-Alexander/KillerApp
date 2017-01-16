@@ -1,4 +1,6 @@
-﻿using Shadow_Arena.Contexts;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
+using Shadow_Arena.Contexts;
 using Xunit;
 
 namespace XTests
@@ -8,7 +10,9 @@ namespace XTests
         [Fact(DisplayName = "Can open a database connection")]
         public void TestDatabaseConnection()
         {
-            DatabaseManager dbManager = new DatabaseManager();
+            LoggerFactory loggerFactory = new LoggerFactory();
+            loggerFactory.AddConsole();
+            DatabaseManager dbManager = new DatabaseManager(loggerFactory.CreateLogger<DatabaseManager>());
             dbManager.Connection.Open(); //if it crashes itl fail.
             //mm it should be private maybe.. convenient for testing though.
         }

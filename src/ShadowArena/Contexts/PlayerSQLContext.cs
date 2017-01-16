@@ -7,9 +7,9 @@ namespace Shadow_Arena.Contexts
 {
     class PlayerSqlContext : IPlayerContext
     {
-        private DatabaseManager DatabaseManager { get; set; }
+        private IDatabaseManager DatabaseManager { get; set; }
         /// <summary>Initializes a new instance of the <see cref="T:System.Object" /> class.</summary>
-        public PlayerSqlContext(DatabaseManager dbManager)
+        public PlayerSqlContext(IDatabaseManager dbManager)
         {
             DatabaseManager = dbManager;
         }
