@@ -55,7 +55,7 @@ namespace Shadow_Arena
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            //loggerFactory.AddDebug();
+            loggerFactory.AddDebug();
             loggerFactory.AddAzureWebAppDiagnostics();
 
             app.UseApplicationInsightsRequestTelemetry();
@@ -63,7 +63,7 @@ namespace Shadow_Arena
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
+          //      app.UseDatabaseErrorPage();
                 app.UseBrowserLink();
             }
             else

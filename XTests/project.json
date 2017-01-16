@@ -1,16 +1,16 @@
-﻿{
+{
   "version": "1.0.0-*",
   "testRunner": "xunit",
   "dependencies": {
     "Microsoft.NETCore.App": {
-      "version": "1.0.1",
+      "version": "1.1.0",
       "type": "platform"
     },
     "xunit": "2.1.0",
     "xunit.runner.dnx": "2.1.0-rc1-build204",
     "dotnet-test-xunit": "2.2.0-preview2-build1029",
     "ShadowArena": "1.0.0",
-    "System.Runtime": "4.1.0"
+    "System.Runtime": "4.3.0"
   },
 
   "frameworks": {
