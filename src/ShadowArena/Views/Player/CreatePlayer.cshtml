@@ -19,20 +19,25 @@
             <h2 class="text-center"><strong>Join</strong> the fight.</h2>
             <div class="form-group">
                 <input asp-for="Email" class="form-control" type="email" required="" placeholder="Email" maxlength="100" minlength="5">
-            </div>
-            <input asp-for="Username" class="form-control" placeholder="Username">
-            <div class="form-group"></div>
-            <div class="form-group">
-                <input asp-for="Password" class="form-control" type="password" placeholder="Password">
+                <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input asp-for="ConfirmPassword" class="form-control" type="password" placeholder="Password (repeat)">
+                <input asp-for="Username" class="form-control" placeholder="Username">
+                <span asp-validation-for="Username" class="text-danger"></span>
             </div>
-            <div class="form-group"></div>
-            <div class="form-group">
-                <button class="btn btn-primary btn-block" type="submit">Sign Up</button>
-            </div><a href="#" class="already">Or login here</a>
-        </form>
+                <div class="form-group">
+                    <input asp-for="Password" class="form-control" type="password" placeholder="Password">
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input asp-for="ConfirmPassword" class="form-control" type="password" placeholder="Password (repeat)">
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
+                <div class="form-group"></div>
+                <div class="form-group">
+                    <button class="btn btn-primary btn-block" type="submit">Sign Up</button>
+                </div><a href="#" class="already">Or login here</a>
+</form>
     </div>
 </div>
 <script src="~/lib/jquery/dist/jquery.js"></script>

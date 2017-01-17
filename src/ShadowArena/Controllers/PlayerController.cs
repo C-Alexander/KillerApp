@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Shadow_Arena.Contexts;
@@ -19,6 +20,7 @@ namespace Shadow_Arena.Controllers
         private ShadowBetaDbContext _shadowContext = new ShadowBetaDbContext();
         private IPlayerRepository _repository;
         private IEmailSender _emailSender;
+        private readonly IDataProtector _protector;
 
         /// <summary>
         /// Instantiates the Playercontroller with a repo of choice. Use memory repository for unit testing
@@ -34,9 +36,10 @@ namespace Shadow_Arena.Controllers
 //            repository = repo;
 //        }
 //This SHOULD work but, Asp.net core offers dependency injection etc. I feel this may cause bugs!!
-        public PlayerController(IEmailSender emailSender, IDatabaseManager databaseManager)
+        public PlayerController(IEmailSender emailSender, IDatabaseManager databaseManager, IDataProtectionProvider provider)
         {
             _emailSender = emailSender;
+            _protector = provider.CreateProtector(GetType().ToString());
             _repository = new PlayerRepository(new PlayerSqlContext(databaseManager));
         }
 
@@ -80,11 +83,15 @@ namespace Shadow_Arena.Controllers
         [HttpPost]
         public IActionResult CreatePlayer(RegisterViewModel player)
         {
+            if (GetPlayerByUserName(player.Username) != null)
+            {
+                ViewData.ModelState.TryAddModelError("Username", "There is already a user with this name in the system.");
+            }
             if (ModelState.IsValid)
             {
                 _repository.Add(new Player()
                 {
-                    PassWord = player.Password,
+                    PassWord = _protector.Protect(player.Password),
                     UserName = player.Username
                 });
                 _emailSender.SendEmailAsync(player.Email,
@@ -94,14 +101,15 @@ namespace Shadow_Arena.Controllers
                         " Your username is: {0} \n" +
                         " Your password is: {1}"
                         , player.Username, player.Password));
-
+                ViewData.Se
+               return View("../Game/Index");
             }
-            return View("../Game/Index");
+            return View();
         }
 
         public Player GetPlayerByUserName(string userName)
         {
-            return _shadowContext.Player.First(p => p.UserName == userName);
+            return _repository.Read().FirstOrDefault(p => p.UserName == userName);
         }
     }
 }

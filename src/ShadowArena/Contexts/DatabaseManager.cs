@@ -29,7 +29,7 @@ namespace Shadow_Arena.Contexts
                 if (_connection.State != System.Data.ConnectionState.Open)
                 {
                     _connection.ConnectionString =
-                        @"Server = (localdb)\\mssqllocaldb; Database = aspnet - Shadow_Arena - 886aa145 - e488 - 49d1 - 95f5 - 9630692916a6; Trusted_Connection = True; MultipleActiveResultSets = true";
+                        @"Server=tcp:sagamedbserver.database.windows.net,1433;Initial Catalog=ShadowBeta_db;Persist Security Info=False;User ID=sa_admin;Password= P-5:.Z:bRHu}?NgQ;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
                     //change for security reasons!!!
                     _connection.Open();
                 }

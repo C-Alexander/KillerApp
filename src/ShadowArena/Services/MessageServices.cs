@@ -14,7 +14,7 @@ namespace Shadow_Arena.Services
     {
         public Task SendEmailAsync(string email, string subject, string message)
         {
-            var senddomain = "shadowbeta.teamcorgi.com";
+            var senddomain = "shadowbeta@teamcorgi.com";
             var mail = new MimeMessage();
             mail.From.Add(new MailboxAddress("Shadowbeta Team", senddomain));
             mail.Subject = subject;
@@ -24,9 +24,9 @@ namespace Shadow_Arena.Services
             using (var client = new SmtpClient() {})
             {
                 client.LocalDomain = senddomain;
-                client.ConnectAsync("smtp.sparkpostmail.com", 587, SecureSocketOptions.StartTls); //example I've found used configureawait todo: figure out the bones of awaits, especially configureawait
-                client.AuthenticateAsync("SMTP_Injection", "a080d2051742d7efeaca2db3177dc4ed8d94809f");
-                client.SendAsync(mail);
+                client.Connect("smtp.sparkpostmail.com", 587, SecureSocketOptions.StartTls); //example I've found used configureawait todo: figure out the bones of awaits, especially configureawait
+                client.Authenticate("SMTP_Injection", "a080d2051742d7efeaca2db3177dc4ed8d94809f");
+                client.Send(mail);
                 client.DisconnectAsync(true); //todo: check performance implications of not awaiting. It's a task so it should run in the background, but make sure it doesnt affect players
 
             }

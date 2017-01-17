@@ -6,7 +6,7 @@ namespace Shadow_Arena.Controllers
     {
         public IActionResult Index()
         {
-            return View("../Player/Index");
+            return View("../Player/CreatePlayer");
         }
 
         public IActionResult Error()
