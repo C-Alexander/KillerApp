@@ -13,7 +13,7 @@ namespace XTests
             LoggerFactory loggerFactory = new LoggerFactory();
             loggerFactory.AddConsole();
             DatabaseManager dbManager = new DatabaseManager(loggerFactory.CreateLogger<DatabaseManager>());
-            dbManager.Connection.Open(); //if it crashes itl fail.
+            dbManager.Open(); //if it crashes itl fail.
             //mm it should be private maybe.. convenient for testing though.
         }
     }

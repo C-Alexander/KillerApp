@@ -1,12 +1,32 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Shadow_Arena.Contexts;
+using Shadow_Arena.Enumerations;
+using Shadow_Arena.Repositories;
+using Shadow_Arena.Services;
 
 namespace Shadow_Arena.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private PlayerRepository _repository;
+
+        public HomeController(IDatabaseManager databaseManager)
         {
-            return View("../Player/CreatePlayer");
+            _repository = new PlayerRepository(new PlayerSqlContext(databaseManager));
+        }
+
+    public IActionResult Index()
+        {
+            if (HttpContext.Session.GetString(ContextData.PlayerId.ToString()) != null)
+            {
+                if (_repository.Read(HttpContext.Session.GetInt32(ContextData.PlayerId.ToString()).GetValueOrDefault()) != null)
+                {
+                    return RedirectToAction("Index", "Game");
+                }
+            }
+            return RedirectToAction("CreatePlayer", "Player");
         }
 
         public IActionResult Error()

@@ -2,7 +2,6 @@
 {
     public enum ContextData
     {
-        PlayerId,
-        SessionId
+        PlayerId
     }
 }

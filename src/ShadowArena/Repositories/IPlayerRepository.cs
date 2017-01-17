@@ -9,5 +9,7 @@ namespace Shadow_Arena.Repositories
         void Delete(Player player);
         void Update(Player player);
         ICollection<Player> Read();
+        Player Read(int playerid);
+        Player Read(Player player);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -44,8 +45,18 @@ namespace Shadow_Arena
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddMvc();
-            services.AddDistributedMemoryCache();
-            services.AddSession();
+            services.AddDistributedSqlServerCache(options =>
+            {
+                options.ConnectionString =
+                    @"Server=tcp:sagamedbserver.database.windows.net,1433;Initial Catalog=ShadowBeta_db;Persist Security Info=False;User ID=sa_admin;Password= P-5:.Z:bRHu}?NgQ;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+                options.SchemaName = "dbo";
+                options.TableName = "Sessions";
+            });
+            services.AddSession(options =>
+            {
+                options.CookieName = "ShadowCookie";
+                options.IdleTimeout = TimeSpan.FromDays(2);
+            });
 
             // Add application services.
             services.AddScoped<IDatabaseManager, DatabaseManager>();

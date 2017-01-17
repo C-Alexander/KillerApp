@@ -1,0 +1,93 @@
+﻿@using System.Threading.Tasks
+@using Microsoft.ApplicationInsights.Extensibility
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - Shadow_Arena</title>
+    <environment names="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+    </environment>
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+    </environment>
+    <environment names="Development,Staging,Production">
+        <link rel="stylesheet" href="~/fonts/font-awesome.min.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cookie">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,400|Roboto:300,400,700">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,400|Roboto:300,400,700">
+    </environment>
+    @Html.ApplicationInsightsJavaScript(TelemetryConfiguration)
+</head>
+<body>
+<nav class="navbar navbar-default navbar-fixed-top navigation-clean-button">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand navbar-link" href="#"><span> </span> </a>
+            <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+        </div>
+        <div class="collapse navbar-collapse" id="navcol-1">
+            <ul class="nav navbar-nav nav-right">
+                <li class="active" role="presentation"><a asp-controller="Game" asp-action="Index">home </a></li>
+                <li role="presentation"><a href="about.html">about </a></li>
+                <li role="presentation"><a href="faq.html">faq </a></li>
+                <li role="presentation"><a href="contact.html">contact </a></li>
+            </ul>
+            <p class="navbar-text navbar-right actions"><a class="navbar-link login" asp-controller="Character" asp-action="Create">New Character</a> <a class="btn btn-default action-button" asp-controller="Player" asp-action="Logout">Logout</a></p>
+        </div>
+    </div>
+</nav>
+    <div class="container body-content">
+        @RenderBody()
+    <hr />
+        </div>
+        <footer>
+            <div class="row">
+                <div class="col-md-4 col-sm-6 footer-navigation">
+                    <h3><a href="http://teamcorgi.com"><img class="corgilogo" src="img/corgilogo.png" /></a></h3>
+                    <p class="company-name">TeamCorgi © @DateTime.Now.Year </p>
+                </div>
+                <div class="col-md-4 col-sm-6 footer-contacts">
+                    <div>
+                        <span class="fa fa-map-marker footer-contacts-icon"> </span>
+                        <p><span class="new-line-span">President Kennedylaan 28/3</span> Amsterdam</p>
+                    </div>
+                    <div>
+                        <i class="fa fa-envelope footer-contacts-icon"></i>
+                        <p> <a href="mailto:alexander@teamcorgi.com" target="_blank">alexander@teamcorgi.com</a></p>
+                    </div>
+                </div>
+                <div class="clearfix visible-sm-block"></div>
+                <div class="col-md-4 footer-about">
+                    <h4>About the company</h4>
+                    <p>
+                        Woof, woof, woof woof woof! Woof! WOOOOOF! Ruff! Woof <a href="https://www.youtube.com/watch?v=ypRbTijDjd4">woof!</a>
+                    </p>
+                    <div class="social-links social-icons"><a href="https://github.com/C-Alexander/KillerApp"><i class="fa fa-github"></i></a></div>
+                </div>
+            </div>
+        </footer>
+    <environment names="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+<environment names="Staging,Production">
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
+            asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+            asp-fallback-test="window.jQuery">
+    </script>
+    <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.min.js"
+            asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+            asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
+    </script>
+    <script src="~/js/site.min.js" asp-append-version="true"></script>
+</environment>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

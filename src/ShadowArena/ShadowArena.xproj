@@ -15,6 +15,7 @@
   <PropertyGroup>
     <SchemaVersion>2.0</SchemaVersion>
     <ApplicationInsightsResourceId>/subscriptions/85f16013-365f-45e6-8de3-cfaeb0697de0/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/Shadow Arena</ApplicationInsightsResourceId>
+    <ApplicationInsightsAnnotationResourceId>/subscriptions/85f16013-365f-45e6-8de3-cfaeb0697de0/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/Shadow Arena</ApplicationInsightsAnnotationResourceId>
   </PropertyGroup>
   <ItemGroup>
     <DnxInvisibleContent Include="bower.json" />

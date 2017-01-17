@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Shadow_Arena.Contexts;
 using Shadow_Arena.Models;
 
@@ -32,6 +34,16 @@ namespace Shadow_Arena.Repositories
         public ICollection<Player> Read()
         {
             return _context.Read();
+        }
+
+        public Player Read(int playerid)
+        {
+            return Read().FirstOrDefault(p => p.Id == playerid);
+        }
+
+        public Player Read(Player player)
+        {
+            return Read(player.Id);
         }
     }
 }

@@ -47,17 +47,12 @@ namespace Shadow_Arena.Controllers
         {
             if (HttpContext.Session.GetString(ContextData.PlayerId.ToString()) != null)
             {
-                if (
-                    _shadowContext.PlayerSession.Any(
-                        s =>
-                            s.Playerid ==
-                            Convert.ToInt32(HttpContext.Session.GetString(ContextData.PlayerId.ToString()))
-                            && s.Sessionid == HttpContext.Session.GetString(ContextData.SessionId.ToString())))
+                if (_repository.Read(HttpContext.Session.GetInt32(ContextData.PlayerId.ToString()).GetValueOrDefault()) != null)
                 {
                     return View("../Game/Index");
                 }
             }
-            return View();
+            return RedirectToAction("CreatePlayer");
         }
 
         [HttpPost]
@@ -80,7 +75,14 @@ namespace Shadow_Arena.Controllers
             return View("Index");
         }
 
+        [HttpGet]
+        public IActionResult CreatePlayer()
+        {
+            return View();
+        }
+
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult CreatePlayer(RegisterViewModel player)
         {
             if (GetPlayerByUserName(player.Username) != null)
@@ -101,8 +103,10 @@ namespace Shadow_Arena.Controllers
                         " Your username is: {0} \n" +
                         " Your password is: {1}"
                         , player.Username, player.Password));
-                ViewData.Se
-               return View("../Game/Index");
+                HttpContext.Session.Clear();
+                HttpContext.Session.SetInt32(ContextData.PlayerId.ToString(), _repository.Read().First(p => p.UserName == player.Username).Id);
+                HttpContext.Session.CommitAsync();
+               return RedirectToAction("Index", "Game");
             }
             return View();
         }
@@ -110,6 +114,23 @@ namespace Shadow_Arena.Controllers
         public Player GetPlayerByUserName(string userName)
         {
             return _repository.Read().FirstOrDefault(p => p.UserName == userName);
+        }
+
+        public IActionResult Error()
+        {
+            return View();
+        }
+
+        public IActionResult Login()
+        {
+            return RedirectToAction("CreatePlayer");
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.LoadAsync();
+            HttpContext.Session.Clear();
+            return RedirectToAction("Login");
         }
     }
 }

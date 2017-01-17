@@ -22,7 +22,7 @@ namespace Shadow_Arena.Contexts
             set { _connection = value; }
         }
 
-         void Open()
+        public void Open()
         {
             try
             {

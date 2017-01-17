@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Shadow_Arena.Contexts;
 using Shadow_Arena.Controllers;
@@ -14,13 +16,15 @@ namespace XTests
         /// <summary>
         /// welp, need I really change my connection string for this
         /// </summary>
-        [Fact(DisplayName = "The index should return the login page when not logged in")]
+        [Fact(DisplayName = "The game should be able to return a view")]
         public void TestNotLoggedInPage()
         {
             LoggerFactory loggerFactory = new LoggerFactory();
             loggerFactory.AddConsole();
-            var c = new PlayerController(new AuthMessageSender(), new DatabaseManager(loggerFactory.CreateLogger<DatabaseManager>()));
-            Assert.True(((ViewResult) c.Index()).ViewName == "Index");
+
+            var c = new GameController();
+            var result = c.Index() as ViewResult;
+            Assert.NotNull(result);
         }
 
         [Fact(DisplayName = "Can create new players")]
@@ -28,11 +32,17 @@ namespace XTests
         {
             LoggerFactory loggerFactory = new LoggerFactory();
             loggerFactory.AddConsole();
-            var c = new PlayerController(new AuthMessageSender(), new DatabaseManager(loggerFactory.CreateLogger<DatabaseManager>()));
+
+            var c = new PlayerController(
+    new AuthMessageSender(),
+    new DatabaseManager(loggerFactory.CreateLogger<DatabaseManager>()),
+    new EphemeralDataProtectionProvider());
+
             c.CreatePlayer(new RegisterViewModel()
             {
                 Password = "wdasffdsdsdf!231!*",
-                Username = "TestUser123456"
+                Username = "TestUser123456",
+                Email = "testmail@testmail.com"
             });
             Assert.True(c.GetPlayerByUserName("TestUser123456") != null);
         }
@@ -42,13 +52,20 @@ namespace XTests
         {
             LoggerFactory loggerFactory = new LoggerFactory();
             loggerFactory.AddConsole();
-            var c = new PlayerController(new AuthMessageSender(), new DatabaseManager(loggerFactory.CreateLogger<DatabaseManager>()));
+
+            var c = new PlayerController(
+                new AuthMessageSender(),
+                new DatabaseManager(loggerFactory.CreateLogger<DatabaseManager>()),
+                new EphemeralDataProtectionProvider());
+            var userNameRandom = Guid.NewGuid().ToString();
+            c.ModelState.TryAddModelError("xUnit", "NotValid");
             c.CreatePlayer(new RegisterViewModel()
             {
-                Password = "gg",
-                Username = "TestUser1234564"
+                Password = "teststuff",
+                Username = userNameRandom,
+                Email = "test@testmail.com"
             });
-            Assert.True(c.GetPlayerByUserName("TestUser1234564") == null);
+            Assert.True(c.GetPlayerByUserName(userNameRandom) == null);
         } 
 
         [Fact(DisplayName = "Can delete a player")]
@@ -56,7 +73,17 @@ namespace XTests
         {
             LoggerFactory loggerFactory = new LoggerFactory();
             loggerFactory.AddConsole();
-            var c = new PlayerController(new AuthMessageSender(), new DatabaseManager(loggerFactory.CreateLogger<DatabaseManager>()));
+
+            var c = new PlayerController(
+    new AuthMessageSender(),
+    new DatabaseManager(loggerFactory.CreateLogger<DatabaseManager>()),
+    new EphemeralDataProtectionProvider());
+            c.CreatePlayer(new RegisterViewModel()
+            {
+                Password = "wdasffdsdsdf!231!*",
+                Username = "TestUser123456",
+                Email = "testmail@testmail.com"
+            });
             Assert.True(c.GetPlayerByUserName("TestUser123456") != null);
             c.DeletePlayer((c.GetPlayerByUserName("TestUser123456").Id));
             Assert.True(c.GetPlayerByUserName("TestUser123456") == null);
@@ -65,12 +92,17 @@ namespace XTests
         [Theory(DisplayName = "Can not delete false players")]
         [InlineData(0)]
         [InlineData(-1)]
-        [InlineData(282939348294829)] //lol imagine if this game got so many players it would actually reach this id. now this would be a funny bug.
+        [InlineData(282938290)] //lol imagine if this game got so many players it would actually reach this id. now this would be a funny bug.
         public void TestFalsePlayerDeletion(int id)
         {
             LoggerFactory loggerFactory = new LoggerFactory();
             loggerFactory.AddConsole();
-            var c = new PlayerController(new AuthMessageSender(), new DatabaseManager(loggerFactory.CreateLogger<DatabaseManager>()));
+
+            var c = new PlayerController(
+    new AuthMessageSender(),
+    new DatabaseManager(loggerFactory.CreateLogger<DatabaseManager>()),
+    new EphemeralDataProtectionProvider());
+
             c.DeletePlayer(id);
         }
     }
