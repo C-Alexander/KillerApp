@@ -12,6 +12,7 @@ namespace Shadow_Arena.Models
         [Required]
         [DataType(DataType.Text)]
         [Display(Name = "Username")]
+        [StringLength(maximumLength: 32, ErrorMessage = "Please make sure your chosen {0} is between {2} and {1} letters", MinimumLength = 3)]
         public string Username { get; set; }
 
         [Required]

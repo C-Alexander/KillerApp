@@ -56,7 +56,9 @@ namespace Shadow_Arena.Controllers
             {
                 _repo.Add(new Character()
                 {
-                    Name = character.Name;
+                    Name = character.Name,
+                    Classid = character.ClassId,
+                    OwningPlayerid = character.PlayerId
                 });
             }
             return RedirectToAction("Login", "Player");
