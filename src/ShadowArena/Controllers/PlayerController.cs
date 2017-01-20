@@ -39,8 +39,8 @@ namespace Shadow_Arena.Controllers
             _emailSender = emailSender;
             _hashing = hashing;
             //  _protector = provider.CreateProtector("PlayerController"); OK, the protector gives different values no matter what I do. New plan.
-            _repository = new PlayerRepository(new PlayerSqlContext(databaseManager));
-            _loginManager = new LoginManager(new PlayerRepository(new PlayerSqlContext(databaseManager)));
+            _repository = new PlayerRepository(new PlayerSQLContext(databaseManager));
+            _loginManager = new LoginManager(new PlayerRepository(new PlayerSQLContext(databaseManager)));
         }
 
         public IActionResult Index()

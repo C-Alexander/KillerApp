@@ -5,11 +5,11 @@ using Shadow_Arena.Models;
 
 namespace Shadow_Arena.Contexts
 {
-    class PlayerSqlContext : IPlayerContext
+    class PlayerSQLContext : IPlayerContext
     {
         private IDatabaseManager DatabaseManager { get; set; }
         /// <summary>Initializes a new instance of the <see cref="T:System.Object" /> class.</summary>
-        public PlayerSqlContext(IDatabaseManager dbManager)
+        public PlayerSQLContext(IDatabaseManager dbManager)
         {
             DatabaseManager = dbManager;
         }

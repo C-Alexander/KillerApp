@@ -12,11 +12,11 @@ namespace Shadow_Arena
 {
     internal class LoginManager
     {
-        private PlayerRepository _playerRepo;
+        private IPlayerRepository _playerRepo;
         private IHashing _hashing;
 
 
-        public LoginManager(PlayerRepository playerRepository)
+        public LoginManager(IPlayerRepository playerRepository)
         {
             _playerRepo = playerRepository;
             _hashing = new Hashing();

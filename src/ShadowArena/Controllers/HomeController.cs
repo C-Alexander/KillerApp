@@ -12,7 +12,7 @@ namespace Shadow_Arena.Controllers
 
         public HomeController(IDatabaseManager databaseManager)
         {
-            _repository = new PlayerRepository(new PlayerSqlContext(databaseManager));
+            _repository = new PlayerRepository(new PlayerSQLContext(databaseManager));
         }
 
     public IActionResult Index()

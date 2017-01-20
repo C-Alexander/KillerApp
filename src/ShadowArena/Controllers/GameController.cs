@@ -10,7 +10,7 @@ namespace Shadow_Arena.Controllers
 
         public GameController(IDatabaseManager databaseManager)
         {
-            _loginManager = new LoginManager(new PlayerRepository(new PlayerSqlContext(databaseManager)));
+            _loginManager = new LoginManager(new PlayerRepository(new PlayerSQLContext(databaseManager)));
         }
 
         public IActionResult Index()

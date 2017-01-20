@@ -5,9 +5,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Primitives;
 using PaulMiami.AspNetCore.Mvc.Recaptcha;
 using Shadow_Arena.Contexts;
 using Shadow_Arena.Data;
+using Shadow_Arena.Repositories;
 using Shadow_Arena.Services;
 
 namespace Shadow_Arena
@@ -68,6 +70,12 @@ namespace Shadow_Arena
             services.AddScoped<IDatabaseManager, DatabaseManager>();
             //mm, does order matter here? Logic dictates I'd always call dependencies before the user but..
             services.AddScoped<IClassSQLContext, ClassSQLContext>();
+            services.AddScoped<ICharacterSQLContext, CharacterSQLContext>();
+            services.AddScoped<IPlayerContext, PlayerSQLContext>(); //damn it resharper stop naming stuff
+
+            services.AddScoped<IClassRepository, ClassRepository>();
+            services.AddScoped<ICharacterRepository, CharacterRepository>();
+            services.AddScoped<IPlayerRepository, PlayerRepository>();
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
         }
