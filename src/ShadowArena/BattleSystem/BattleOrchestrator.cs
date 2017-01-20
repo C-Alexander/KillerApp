@@ -17,6 +17,7 @@ namespace Shadow_Arena.BattleSystem
             {
                 if (b.NeedsCleanup)
                 {
+                    _battleQueue.Remove(b);
                     //why did I make two lists and why did I do it so.. weird. Oh well.
                     b.NeedsCleanup = false;
                 }
