@@ -97,7 +97,8 @@ namespace Shadow_Arena.Controllers
                 _repository.Add(new Player()
                 {
                     PassWord = _hashing.GetHashedPassword(player.Password),
-                    UserName = player.Username
+                    UserName = player.Username,
+                    Level = 1
                 });
                 _emailSender.SendEmailAsync(player.Email,
                     "Welcome to the Shadow World",

@@ -20,7 +20,7 @@ namespace Shadow_Arena.Contexts
         {
             SqlCommand cmd = new SqlCommand();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.CommandText = "CreateCharacter";
+            cmd.CommandText = "dbo.CreateCharacter";
             cmd.Parameters.AddWithValue("@Name", character.Name);
             cmd.Parameters.AddWithValue("@ClassID", character.Classid);
             if (character.OwningPlayerid != null)

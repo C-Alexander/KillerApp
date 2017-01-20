@@ -3,7 +3,7 @@ using Shadow_Arena.Models;
 
 namespace Shadow_Arena.Repositories
 {
-    interface IClassRepository
+    public interface IClassRepository
     {
         void Delete(Class classToDelete);
         ICollection<Class> Read();

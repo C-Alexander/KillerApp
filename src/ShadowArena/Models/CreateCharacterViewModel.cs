@@ -12,9 +12,7 @@ namespace Shadow_Arena.Controllers
         public string Name { get; set; }
 
         [Required]
+        [DisplayName("Class")]
         public int ClassId { get; set; }
-
-        [Required]
-        public int PlayerId { get; set; }
     }
 }

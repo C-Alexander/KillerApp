@@ -2,6 +2,7 @@
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Shadow_Arena.Enumerations;
 using Shadow_Arena.Models;
 using Shadow_Arena.Repositories;
@@ -11,11 +12,13 @@ namespace Shadow_Arena.Controllers
     public class CharacterController : Controller
     {
         private ILoginManager _loginManager;
+        private readonly IClassRepository _classRepo;
         private readonly ICharacterRepository _repo;
 
-        public CharacterController(ILoginManager loginManager, ICharacterRepository repo)
+        public CharacterController(ILoginManager loginManager, IClassRepository classRepo, ICharacterRepository repo)
         {
             _loginManager = loginManager;
+            _classRepo = classRepo;
             _repo = repo;
         }
 
@@ -39,6 +42,8 @@ namespace Shadow_Arena.Controllers
         {
             if (_loginManager.IsLoggedIn(HttpContext?.Session))
             {
+                ViewBag.Classes = _classRepo.Read().Select(c
+              => new SelectListItem() { Text = c.Name, Value = c.Id.ToString() });
                 return View();
             }
                 return RedirectToAction("Login", "Player");
@@ -52,16 +57,25 @@ namespace Shadow_Arena.Controllers
             {
                 return RedirectToAction("Login", "Player");
             }
+            if (
+                _repo.Read()
+                    .Count(c => c.OwningPlayerid == HttpContext.Session.GetInt32(ContextData.PlayerId.ToString())) > 3)
+                ModelState.TryAddModelError(String.Empty, "You already own too many characters.");
+            
+
             if (ModelState.IsValid)
             {
                 _repo.Add(new Character()
                 {
                     Name = character.Name,
                     Classid = character.ClassId,
-                    OwningPlayerid = character.PlayerId
+                    OwningPlayerid = HttpContext?.Session.GetInt32(ContextData.PlayerId.ToString())
                 });
+                return RedirectToAction("Index");
             }
-            return RedirectToAction("Login", "Player");
+            ViewBag.Classes = _classRepo.Read().Select(c
+=> new SelectListItem() { Text = c.Name, Value = c.Id.ToString() });
+            return RedirectToAction("CreateCharacter");
         }
 
         [HttpPost]

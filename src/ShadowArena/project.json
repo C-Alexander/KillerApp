@@ -47,7 +47,8 @@
     "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "1.1.0",
     "Microsoft.Extensions.Caching.SqlServer": "1.1.0",
     "PaulMiami.AspNetCore.Mvc.Recaptcha": "1.1.1",
-    "Microsoft.AspNetCore.Cryptography.KeyDerivation": "1.1.0"
+    "Microsoft.AspNetCore.Cryptography.KeyDerivation": "1.1.0",
+    "Microsoft.DotNet.InternalAbstractions": "1.0.0"
     },
   "tools": {
     "BundlerMinifier.Core": "2.2.306",
