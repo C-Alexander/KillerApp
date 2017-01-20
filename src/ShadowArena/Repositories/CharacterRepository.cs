@@ -8,11 +8,13 @@ namespace Shadow_Arena.Repositories
     class CharacterRepository : ICharacterRepository
     {
         private ICharacterSQLContext _context;
+        private readonly IClassRepository _classRepo;
 
         /// <summary>Initializes a new instance of the <see cref="T:System.Object" /> class.</summary>
-        public CharacterRepository(ICharacterSQLContext context)
+        public CharacterRepository(ICharacterSQLContext context, IClassRepository classRepo)
         {
             _context = context;
+            _classRepo = classRepo;
         }
 
         public void Add(Character character)
@@ -32,6 +34,11 @@ namespace Shadow_Arena.Repositories
 
         public ICollection<Character> Read()
         {
+            ICollection<Character> listCharacters = _context.Read();
+            foreach (Character c in listCharacters)
+            {
+                c.Class = _classRepo.Read(c.Classid);
+            }
             return _context.Read();
         }
 

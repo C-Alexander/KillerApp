@@ -1,0 +1,55 @@
+﻿@model IEnumerable<Shadow_Arena.Models.Character>
+
+@{
+    ViewData["Title"] = "Home";
+    Layout = "_GameLayout";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Character Name</th>
+            <th>Class</th>
+            <th>Attack</th>
+            <th>Defense</th>
+            <th>Magic Attack</th>
+            <th>Magic Defense</th>
+            <th>Vitality</th>
+            <th>Intelligence</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Class.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Stat.Attack)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Stat.Defense)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Stat.MagicAttack)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Stat.MagicDefence)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Stat.Vitality)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Stat.Intelligence)
+                </td>
+                <td>
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

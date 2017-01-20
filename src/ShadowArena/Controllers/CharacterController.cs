@@ -63,5 +63,18 @@ namespace Shadow_Arena.Controllers
             }
             return RedirectToAction("Login", "Player");
         }
+
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            if (!_loginManager.IsLoggedIn(HttpContext?.Session) || !_repo.Read().Any(c => 
+            c.OwningPlayerid == HttpContext.Session.GetInt32(ContextData.PlayerId.ToString()) 
+            && c.Id == id)) //ensure they do own the character.
+            {
+                return RedirectToAction("Login", "Player");
+            }
+            _repo.Delete(new Character() {Id = id});
+            return RedirectToAction("Index");
+        }
     }
 }

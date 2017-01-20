@@ -36,7 +36,7 @@ namespace Shadow_Arena.Contexts
 
         public void Delete(Character character)
         {
-            SqlCommand cmd = new SqlCommand();
+            SqlCommand cmd = new SqlCommand(); //FK ensures the stat is deleted.
             cmd.CommandText = "DELETE FROM Character" +
                                " WHERE Character.id = @id";
             cmd.Parameters.AddWithValue("@id", character.Id);

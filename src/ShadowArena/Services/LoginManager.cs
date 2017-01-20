@@ -10,7 +10,7 @@ using Shadow_Arena.Services;
 
 namespace Shadow_Arena
 {
-    internal class LoginManager
+    internal class LoginManager : ILoginManager
     {
         private IPlayerRepository _playerRepo;
         private IHashing _hashing;

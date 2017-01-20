@@ -76,6 +76,8 @@ namespace Shadow_Arena
             services.AddScoped<IClassRepository, ClassRepository>();
             services.AddScoped<ICharacterRepository, CharacterRepository>();
             services.AddScoped<IPlayerRepository, PlayerRepository>();
+
+            services.AddScoped<ILoginManager, LoginManager>();
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
         }
