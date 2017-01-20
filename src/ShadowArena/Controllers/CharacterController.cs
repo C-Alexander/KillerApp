@@ -78,7 +78,7 @@ namespace Shadow_Arena.Controllers
             return RedirectToAction("CreateCharacter");
         }
 
-        [HttpPost]
+        [HttpGet]
         public IActionResult Delete(int id)
         {
             if (!_loginManager.IsLoggedIn(HttpContext?.Session) || !_repo.Read().Any(c => 

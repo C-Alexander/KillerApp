@@ -68,7 +68,7 @@ namespace XTests
     new Hashing());
             c.CreatePlayer(new RegisterViewModel()
             {
-                Password = "wdasffdsdsdf!231!*",
+                Password = "wdasffdsdsdf!231!",
                 Username = "TestUser123456",
                 Email = "testmail@testmail.com"
             });
