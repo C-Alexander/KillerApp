@@ -72,9 +72,13 @@ namespace XTests
                 Username = "TestUser123456",
                 Email = "testmail@testmail.com"
             });
+            Console.WriteLine("Checking if player exists");
             Assert.True(c.GetPlayerByUserName("TestUser123456") != null);
+            Console.WriteLine("Player exists! Deleting..");
             c.DeletePlayer((c.GetPlayerByUserName("TestUser123456").Id));
+            Console.WriteLine("Played deleted!!!");
             Assert.True(c.GetPlayerByUserName("TestUser123456") == null);
+            Console.WriteLine("Checking");
         }
 
         [Theory(DisplayName = "Can not delete false players")]
