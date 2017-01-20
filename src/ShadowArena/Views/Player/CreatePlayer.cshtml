@@ -33,15 +33,18 @@
                     <input asp-for="ConfirmPassword" class="form-control" type="password" placeholder="Password (repeat)">
                     <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                 </div>
-                <div class="form-group"></div>
+            <div class="form-group"><recaptcha /></div>
+            <div class="form-group"></div>
                 <div class="form-group">
                     <button class="btn btn-primary btn-block" type="submit">Sign Up</button>
-                </div><a href="#" class="already">Or login here</a>
+                </div><a asp-controller="Player" asp-action="Login" class="already">Or login here</a>
 </form>
     </div>
 </div>
 <script src="~/lib/jquery/dist/jquery.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+@* ReSharper disable once Html.TagNotResolved *@
+    <recaptcha-script />
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 </body>
 </html>

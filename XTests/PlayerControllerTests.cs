@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Session;
 using Microsoft.Extensions.Logging;
 using Shadow_Arena.Contexts;
 using Shadow_Arena.Controllers;
@@ -12,21 +14,6 @@ namespace XTests
 {
     public class PlayerControllerTests
     {
-        //atm asp.net core does not support proper unit testing. This means I have toeither work heavily around its DI or compromise by not using memory contexts. Sigh.
-        /// <summary>
-        /// welp, need I really change my connection string for this
-        /// </summary>
-        [Fact(DisplayName = "The game should be able to return a view")]
-        public void TestNotLoggedInPage()
-        {
-            LoggerFactory loggerFactory = new LoggerFactory();
-            loggerFactory.AddConsole();
-
-            var c = new GameController();
-            var result = c.Index() as ViewResult;
-            Assert.NotNull(result);
-        }
-
         [Fact(DisplayName = "Can create new players")]
         public void TestNewPlayerCreation()
         {
@@ -36,7 +23,7 @@ namespace XTests
             var c = new PlayerController(
     new AuthMessageSender(),
     new DatabaseManager(loggerFactory.CreateLogger<DatabaseManager>()),
-    new EphemeralDataProtectionProvider());
+    new Hashing());
 
             c.CreatePlayer(new RegisterViewModel()
             {
@@ -45,6 +32,7 @@ namespace XTests
                 Email = "testmail@testmail.com"
             });
             Assert.True(c.GetPlayerByUserName("TestUser123456") != null);
+            c.DeletePlayer(c.GetPlayerByUserName("TestUser123456").Id);
         }
 
         [Fact(DisplayName = "Can not create invalid players")]
@@ -56,7 +44,7 @@ namespace XTests
             var c = new PlayerController(
                 new AuthMessageSender(),
                 new DatabaseManager(loggerFactory.CreateLogger<DatabaseManager>()),
-                new EphemeralDataProtectionProvider());
+                new Hashing());
             var userNameRandom = Guid.NewGuid().ToString();
             c.ModelState.TryAddModelError("xUnit", "NotValid");
             c.CreatePlayer(new RegisterViewModel()
@@ -77,7 +65,7 @@ namespace XTests
             var c = new PlayerController(
     new AuthMessageSender(),
     new DatabaseManager(loggerFactory.CreateLogger<DatabaseManager>()),
-    new EphemeralDataProtectionProvider());
+    new Hashing());
             c.CreatePlayer(new RegisterViewModel()
             {
                 Password = "wdasffdsdsdf!231!*",
@@ -100,8 +88,7 @@ namespace XTests
 
             var c = new PlayerController(
     new AuthMessageSender(),
-    new DatabaseManager(loggerFactory.CreateLogger<DatabaseManager>()),
-    new EphemeralDataProtectionProvider());
+    new DatabaseManager(loggerFactory.CreateLogger<DatabaseManager>()), new Hashing());
 
             c.DeletePlayer(id);
         }

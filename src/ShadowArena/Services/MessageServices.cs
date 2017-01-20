@@ -1,5 +1,4 @@
-﻿using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using MimeKit;
@@ -21,7 +20,7 @@ namespace Shadow_Arena.Services
             mail.Body = new TextPart(TextFormat.Plain.ToString()) { Text = message };
             mail.To.Add(new MailboxAddress(email));
 
-            using (var client = new SmtpClient() {})
+            using (var client = new SmtpClient())
             {
                 client.LocalDomain = senddomain;
                 client.Connect("smtp.sparkpostmail.com", 587, SecureSocketOptions.StartTls); //example I've found used configureawait todo: figure out the bones of awaits, especially configureawait

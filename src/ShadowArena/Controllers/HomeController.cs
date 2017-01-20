@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.DataProtection;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Shadow_Arena.Contexts;
 using Shadow_Arena.Enumerations;
 using Shadow_Arena.Repositories;
-using Shadow_Arena.Services;
 
 namespace Shadow_Arena.Controllers
 {

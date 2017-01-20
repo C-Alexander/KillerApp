@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using PaulMiami.AspNetCore.Mvc.Recaptcha;
 using Shadow_Arena.Contexts;
 using Shadow_Arena.Data;
 using Shadow_Arena.Services;
@@ -57,9 +58,16 @@ namespace Shadow_Arena
                 options.CookieName = "ShadowCookie";
                 options.IdleTimeout = TimeSpan.FromDays(2);
             });
-
+            services.AddRecaptcha(new RecaptchaOptions
+            {
+                SiteKey = "6LfiNRIUAAAAALY0fqfjQemb-tqpq8YwTAVk1yUN",
+                SecretKey = "6LfiNRIUAAAAAGx8NHLua8AtHJn-Aso5jecbqvcW"
+            });
             // Add application services.
+            services.AddScoped<IHashing, Hashing>();
             services.AddScoped<IDatabaseManager, DatabaseManager>();
+            //mm, does order matter here? Logic dictates I'd always call dependencies before the user but..
+            services.AddScoped<IClassSQLContext, ClassSQLContext>();
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
         }

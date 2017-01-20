@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Linq;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PaulMiami.AspNetCore.Mvc.Recaptcha;
 using Shadow_Arena.Contexts;
-using Shadow_Arena.Data;
 using Shadow_Arena.Enumerations;
 using Shadow_Arena.Models;
 using Shadow_Arena.Repositories;
@@ -17,40 +18,36 @@ namespace Shadow_Arena.Controllers
     //alex said, right before some kid on infralab figured out the requests and deleted every player with Charles
     public class PlayerController : Controller
     {
-        private ShadowBetaDbContext _shadowContext = new ShadowBetaDbContext();
         private IPlayerRepository _repository;
         private IEmailSender _emailSender;
-        private readonly IDataProtector _protector;
+        private readonly IHashing _hashing;
+        private LoginManager _loginManager;
 
         /// <summary>
         /// Instantiates the Playercontroller with a repo of choice. Use memory repository for unit testing
         /// </summary>
-#pragma warning disable 1584,1711,1572,1581,1580
-        /// <param name="repo">Repository to use</param>
-#pragma warning restore 1584,1711,1572,1581,1580
-        /// 
-        /// 
-        /// 
+        /// <param name="emailSender">The email service to use</param>
+        /// <param name="databaseManager">The database manager to use</param>
+        /// <param name="hashing">The hashing service to use</param>
 //        public PlayerController(IPlayerRepository repo)
 //        {
 //            repository = repo;
 //        }
 //This SHOULD work but, Asp.net core offers dependency injection etc. I feel this may cause bugs!!
-        public PlayerController(IEmailSender emailSender, IDatabaseManager databaseManager, IDataProtectionProvider provider)
+        public PlayerController(IEmailSender emailSender, IDatabaseManager databaseManager, IHashing hashing)
         {
             _emailSender = emailSender;
-            _protector = provider.CreateProtector(GetType().ToString());
+            _hashing = hashing;
+            //  _protector = provider.CreateProtector("PlayerController"); OK, the protector gives different values no matter what I do. New plan.
             _repository = new PlayerRepository(new PlayerSqlContext(databaseManager));
+            _loginManager = new LoginManager(new PlayerRepository(new PlayerSqlContext(databaseManager)));
         }
 
         public IActionResult Index()
         {
-            if (HttpContext.Session.GetString(ContextData.PlayerId.ToString()) != null)
+            if (_loginManager.IsLoggedIn(HttpContext.Session))
             {
-                if (_repository.Read(HttpContext.Session.GetInt32(ContextData.PlayerId.ToString()).GetValueOrDefault()) != null)
-                {
-                    return View("../Game/Index");
-                }
+                return View("../Game/Index");
             }
             return RedirectToAction("CreatePlayer");
         }
@@ -58,7 +55,7 @@ namespace Shadow_Arena.Controllers
         [HttpPost]
         public IActionResult DeletePlayer(int playerId)
         {
-          
+
             Player player = new Player();
             player.Id = playerId;
             _repository.Delete(player);
@@ -69,9 +66,10 @@ namespace Shadow_Arena.Controllers
         // ReSharper disable once UnusedMember.Local
         private IActionResult UpdatePlayer(Player player)
         {
-            if (ModelState.IsValid) { 
-            _repository.Update(player);
-               }
+            if (ModelState.IsValid)
+            {
+                _repository.Update(player);
+            }
             return View("Index");
         }
 
@@ -83,8 +81,13 @@ namespace Shadow_Arena.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ValidateRecaptcha]
         public IActionResult CreatePlayer(RegisterViewModel player)
         {
+            if (_loginManager.IsLoggedIn(HttpContext?.Session))
+            {
+                return RedirectToAction("Index", "Game");
+            }
             if (GetPlayerByUserName(player.Username) != null)
             {
                 ViewData.ModelState.TryAddModelError("Username", "There is already a user with this name in the system.");
@@ -93,7 +96,7 @@ namespace Shadow_Arena.Controllers
             {
                 _repository.Add(new Player()
                 {
-                    PassWord = _protector.Protect(player.Password),
+                    PassWord = _hashing.GetHashedPassword(player.Password),
                     UserName = player.Username
                 });
                 _emailSender.SendEmailAsync(player.Email,
@@ -103,10 +106,11 @@ namespace Shadow_Arena.Controllers
                         " Your username is: {0} \n" +
                         " Your password is: {1}"
                         , player.Username, player.Password));
-                HttpContext.Session.Clear();
-                HttpContext.Session.SetInt32(ContextData.PlayerId.ToString(), _repository.Read().First(p => p.UserName == player.Username).Id);
-                HttpContext.Session.CommitAsync();
-               return RedirectToAction("Index", "Game");
+                HttpContext?.Session.Clear();
+                HttpContext?.Session.SetInt32(ContextData.PlayerId.ToString(),
+                    _repository.Read().First(p => p.UserName == player.Username).Id);
+                HttpContext?.Session.CommitAsync();
+                return RedirectToAction("Index", "Game");
             }
             return View();
         }
@@ -121,15 +125,38 @@ namespace Shadow_Arena.Controllers
             return View();
         }
 
+        [HttpGet]
         public IActionResult Login()
         {
-            return RedirectToAction("CreatePlayer");
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ValidateRecaptcha]
+        public IActionResult Login(LoginViewModel player)
+        {
+            if (GetPlayerByUserName(player.Username) == null)
+            {
+                ModelState.TryAddModelError("Username", "This user does not exist");
+            }
+            if (!_loginManager.Login(HttpContext.Session, player))
+            {
+                ModelState.TryAddModelError("Password", "The password was incorrect");
+            }
+            if (ModelState.IsValid)
+            {
+                return RedirectToAction("Index", "Game");
+            }
+            return View();
         }
 
         public IActionResult Logout()
         {
-            HttpContext.Session.LoadAsync();
-            HttpContext.Session.Clear();
+            if (_loginManager.IsLoggedIn(HttpContext?.Session))
+            {
+                _loginManager.Logout(HttpContext?.Session);
+            }
             return RedirectToAction("Login");
         }
     }

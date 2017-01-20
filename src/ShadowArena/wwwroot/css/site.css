@@ -100,12 +100,13 @@ footer {
 }
 
 .fa.footer-contacts-icon {
-  background-color:#33383b;
+    background-color:#33383b;
   color:#fff;
   font-size:18px;
   width:38px;
   height:38px;
-  border-radius:50%;
+    -ms-border-radius:50%;
+    border-radius:50%;
   text-align:center;
   line-height:38px;
   margin:10px 15px 10px 0;
@@ -158,6 +159,11 @@ div.social-links {
   margin-right:5px;
   margin-bottom:5px;
 }
+
+.body-content {
+    margin-top: 20px;
+}
+
 .navigation-clean-button {
   background:#222222;
   padding-top:10px;
@@ -257,8 +263,9 @@ div.social-links {
 }
 
 .navigation-clean-button .navbar-nav > li > .dropdown-menu {
-  margin-top:-5px;
-  box-shadow:0 4px 8px rgba(0,0,0,.1);
+    margin-top:-5px;
+    box-shadow:0 4px 8px #000000;
+    box-shadow:0 4px 8px rgba(0,0,0,.1);
   background-color:#222222;
   border-radius:2px;
 }

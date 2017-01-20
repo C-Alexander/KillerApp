@@ -1,5 +1,5 @@
 ﻿@using System.Threading.Tasks
-@model Shadow_Arena.Models.RegisterViewModel
+@model Shadow_Arena.Models.LoginViewModel
 @{
     Layout = null;
 }
@@ -13,35 +13,30 @@
     <link rel="stylesheet" href="/css/Registration-Form-with-Photo.css">
 </head>
 <body>
-<div class="register-photo">
-    <div class="form-container">
-        <form asp-controller="Player" asp-action="CreatePlayer" method="post" class="form-horizontal">
-            <h2 class="text-center"><strong>Join</strong> the fight.</h2>
-            <div class="form-group">
-                <input asp-for="Email" class="form-control" type="email" required="" placeholder="Email" maxlength="100" minlength="5">
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input asp-for="Username" class="form-control" placeholder="Username">
-                <span asp-validation-for="Username" class="text-danger"></span>
-            </div>
+    <div class="register-photo">
+        <div class="form-container">
+            <form asp-controller="Player" asp-action="Login" method="post" class="form-horizontal">
+                <h2 class="text-center"><strong>Join</strong> the fight.</h2>
+                <div class="form-group">
+                    <input asp-for="Username" class="form-control" placeholder="Username">
+                    <span asp-validation-for="Username" class="text-danger"></span>
+                </div>
                 <div class="form-group">
                     <input asp-for="Password" class="form-control" type="password" placeholder="Password">
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
-                <div class="form-group">
-                    <input asp-for="ConfirmPassword" class="form-control" type="password" placeholder="Password (repeat)">
-                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                </div>
+                <div class="form-group"><recaptcha /></div>
                 <div class="form-group"></div>
                 <div class="form-group">
-                    <button class="btn btn-primary btn-block" type="submit">Sign Up</button>
-                </div><a href="#" class="already">Or login here</a>
-</form>
+                    <button class="btn btn-primary btn-block" type="submit">Login</button>
+                </div><a asp-controller="Player" asp-action="CreatePlayer" class="already">Or register here</a>
+            </form>
+        </div>
     </div>
-</div>
-<script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+@* ReSharper disable once Html.TagNotResolved *@
+    <recaptcha-script />
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 </body>
 </html>

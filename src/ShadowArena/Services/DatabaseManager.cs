@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Data.Common;
 using System.Data.SqlClient;
-using System.Linq.Expressions;
 using Microsoft.Extensions.Logging;
 
 namespace Shadow_Arena.Contexts
@@ -10,7 +9,6 @@ namespace Shadow_Arena.Contexts
     {
         private DbConnection _connection = new SqlConnection();
         private ILogger<DatabaseManager> logger;
-
         public DatabaseManager(ILogger<DatabaseManager> logger)
         {
             this.logger = logger;
